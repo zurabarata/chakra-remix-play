@@ -1,7 +1,9 @@
+import SocialProfileSimple from "~/components/SocialUserProfileSimple";
+
 export default function MeIndexRoute() {
     return (
         <div>
-            <h1>Me</h1>
+            <SocialProfileSimple />
         </div>
     )
 }
