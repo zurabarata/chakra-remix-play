@@ -1,7 +1,7 @@
-import Navbar from "~/routes/Navbar";
+import NavBarDarkThemeSwitcher from "~/routes/NavBarDarkThemeSwitcher";
 
 export default function Index() {
   return (
-<Navbar />
+<NavBarDarkThemeSwitcher />
   );
 }
