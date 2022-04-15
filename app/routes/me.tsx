@@ -6,10 +6,10 @@ import SidebarWithHeader from "~/routes/SidebarWithHeader";
 
 export default function MeRoute() {
   return (
-          <SidebarWithHeader>
+      <>
+          <NavBarDarkThemeSwitcher />
               <Box p={4}>
               <Outlet />
-          </Box>
-          </SidebarWithHeader>
+          </Box></>
   );
 }
