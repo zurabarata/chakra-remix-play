@@ -13,6 +13,7 @@ import {
     Drawer,
     DrawerContent,
     Text,
+    Image,
     useDisclosure,
     BoxProps,
     FlexProps,
@@ -20,7 +21,7 @@ import {
     MenuButton,
     MenuDivider,
     MenuItem,
-    MenuList,
+    MenuList, Button, useColorMode, Stack, Center,
 } from '@chakra-ui/react';
 import {
     FiHome,
@@ -34,6 +35,7 @@ import {
 } from 'react-icons/fi';
 import { IconType } from 'react-icons';
 import { ReactText } from 'react';
+import {MoonIcon, SunIcon} from "@chakra-ui/icons";
 
 interface LinkItemProps {
     name: string;
@@ -96,9 +98,6 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
             h="full"
             {...rest}>
             <Flex h="20" alignItems="center" mx="8" justifyContent="space-between">
-                <Text fontSize="2xl" fontFamily="monospace" fontWeight="bold">
-                    Logo
-                </Text>
                 <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} />
             </Flex>
             {LinkItems.map((link) => (
@@ -149,6 +148,7 @@ interface MobileProps extends FlexProps {
     onOpen: () => void;
 }
 const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
+    const { colorMode, toggleColorMode } = useColorMode();
     return (
         <Flex
             ml={{ base: 0, md: 60 }}
@@ -177,6 +177,9 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
             </Text>
 
             <HStack spacing={{ base: '0', md: '6' }}>
+                <Button onClick={toggleColorMode}>
+                    {colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
+                </Button>
                 <IconButton
                     size="lg"
                     variant="ghost"
@@ -184,43 +187,40 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
                     icon={<FiBell />}
                 />
                 <Flex alignItems={'center'}>
-                    <Menu>
-                        <MenuButton
-                            py={2}
-                            transition="all 0.3s"
-                            _focus={{ boxShadow: 'none' }}>
-                            <HStack>
+                    <Stack direction={'row'} spacing={7}>
+
+                        <Menu>
+                            <MenuButton
+                                as={Button}
+                                rounded={'full'}
+                                variant={'link'}
+                                cursor={'pointer'}
+                                minW={0}>
                                 <Avatar
                                     size={'sm'}
-                                    src={
-                                        'https://images.unsplash.com/photo-1619946794135-5bc917a27793?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&s=b616b2c5b373a80ffc9636ba24f7a4a9'
-                                    }
+                                    src={'https://scontent.ftxl3-2.fna.fbcdn.net/v/t1.6435-9/80679191_10212511923913467_3015189078992748544_n.jpg?_nc_cat=107&ccb=1-5&_nc_sid=174925&_nc_ohc=dBpRfDeJdj4AX8lGUMJ&_nc_ht=scontent.ftxl3-2.fna&oh=00_AT-PipysJh41aBY7VKqsDLJueTsbrxrL5keVLsqxrSAKcQ&oe=628129A3'}
                                 />
-                                <VStack
-                                    display={{ base: 'none', md: 'flex' }}
-                                    alignItems="flex-start"
-                                    spacing="1px"
-                                    ml="2">
-                                    <Text fontSize="sm">Justina Clark</Text>
-                                    <Text fontSize="xs" color="gray.600">
-                                        Admin
-                                    </Text>
-                                </VStack>
-                                <Box display={{ base: 'none', md: 'flex' }}>
-                                    <FiChevronDown />
-                                </Box>
-                            </HStack>
-                        </MenuButton>
-                        <MenuList
-                            bg={useColorModeValue('white', 'gray.900')}
-                            borderColor={useColorModeValue('gray.200', 'gray.700')}>
-                            <MenuItem>Profile</MenuItem>
-                            <MenuItem>Settings</MenuItem>
-                            <MenuItem>Billing</MenuItem>
-                            <MenuDivider />
-                            <MenuItem>Sign out</MenuItem>
-                        </MenuList>
-                    </Menu>
+                            </MenuButton>
+                            <MenuList alignItems={'center'}>
+                                <br />
+                                <Center>
+                                    <Avatar
+                                        size={'2xl'}
+                                        src={'https://scontent.ftxl3-2.fna.fbcdn.net/v/t1.6435-9/80679191_10212511923913467_3015189078992748544_n.jpg?_nc_cat=107&ccb=1-5&_nc_sid=174925&_nc_ohc=dBpRfDeJdj4AX8lGUMJ&_nc_ht=scontent.ftxl3-2.fna&oh=00_AT-PipysJh41aBY7VKqsDLJueTsbrxrL5keVLsqxrSAKcQ&oe=628129A3'}
+                                    />
+                                </Center>
+                                <br />
+                                <Center>
+                                    <p>ზურაბ</p>
+                                </Center>
+                                <br />
+                                <MenuDivider />
+                                <MenuItem>Your Servers</MenuItem>
+                                <MenuItem>Account Settings</MenuItem>
+                                <MenuItem>Logout</MenuItem>
+                            </MenuList>
+                        </Menu>
+                    </Stack>
                 </Flex>
             </HStack>
         </Flex>
