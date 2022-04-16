@@ -5,13 +5,34 @@ import {
     Center,
     Text,
     Stack,
-    Button,
     Link,
     Badge,
     useColorModeValue,
 } from '@chakra-ui/react';
+import { db } from "~/utils/db.server";
+import { json } from "@remix-run/node";
+import type {
+    LinksFunction,
+    LoaderFunction,
+} from "@remix-run/node";
+import {useLoaderData, Link as RemixLink} from "@remix-run/react";
+
+type LoaderData = {
+    noteListItems: Array<{ id: string; name: string }>;
+};
+
+export const loader: LoaderFunction = async () => {
+    const data: LoaderData = {
+        noteListItems: await db.note.findMany(),
+    };
+    return json(data);
+};
 
 export default function SocialProfileSimple() {
+    const data = useLoaderData<LoaderData>();
+
+    console.log(data);
+
     return (
         <Center py={6}>
             <Box
@@ -73,43 +94,15 @@ export default function SocialProfileSimple() {
                 </Stack>
 
                 <Stack align={'center'} justify={'center'} direction={'row'} mt={6}>
-                    <Badge
-                        px={2}
-                        py={1}
-                        bg={useColorModeValue('gray.50', 'gray.800')}
-                        fontWeight={'400'}>
-                        #entrepreneurship
-                    </Badge>
+                    <ul>
+                        {data?.noteListItems.map(note => (
+                            <li key={note.id}>
+                                <Text>{note.name}</Text>
+                            </li>
+                        ))}
+                    </ul>
                 </Stack>
 
-{/*                <Stack mt={8} direction={'row'} spacing={4}>
-                    <Button
-                        flex={1}
-                        fontSize={'sm'}
-                        rounded={'full'}
-                        _focus={{
-                            bg: 'gray.200',
-                        }}>
-                        Message
-                    </Button>
-                    <Button
-                        flex={1}
-                        fontSize={'sm'}
-                        rounded={'full'}
-                        bg={'blue.400'}
-                        color={'white'}
-                        boxShadow={
-                            '0px 1px 25px -5px rgb(66 153 225 / 48%), 0 10px 10px -5px rgb(66 153 225 / 43%)'
-                        }
-                        _hover={{
-                            bg: 'blue.500',
-                        }}
-                        _focus={{
-                            bg: 'blue.500',
-                        }}>
-                        Follow
-                    </Button>
-                </Stack>*/}
             </Box>
         </Center>
     );

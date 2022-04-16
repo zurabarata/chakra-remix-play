@@ -1,4 +1,4 @@
-import SocialProfileSimple from "~/components/SocialUserProfileSimple";
+import SocialProfileSimple from "~/routes/me/SocialUserProfileSimple";
 
 export default function MeIndexRoute() {
     return (
