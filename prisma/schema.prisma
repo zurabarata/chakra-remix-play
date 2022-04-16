@@ -16,7 +16,5 @@ model Note {
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
   name       String
-  title      String
   content    String
-  image      String
 }

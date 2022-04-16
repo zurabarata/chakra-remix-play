@@ -31,8 +31,6 @@ export const loader: LoaderFunction = async () => {
 export default function SocialProfileSimple() {
     const data = useLoaderData<LoaderData>();
 
-    console.log(data);
-
     return (
         <Center py={6}>
             <Box
