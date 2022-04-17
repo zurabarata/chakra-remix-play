@@ -1,4 +1,3 @@
-import SocialProfileSimple from "~/routes/notes/SocialUserProfileSimple";
 import { db } from "~/utils/db.server";
 import { json } from "@remix-run/node";
 import type {

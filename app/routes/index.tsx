@@ -1,11 +1,11 @@
 import {Box} from "@chakra-ui/react";
-import NavBarDarkThemeSwitcher from "~/components/NavBarDarkThemeSwitcher";
+import WithLargeQuote from "~/components/WithLargeQuote";
 
 
 export default function Index() {
     return (
         <>
-            <NavBarDarkThemeSwitcher />
+            <WithLargeQuote />
             <Box p={4}>
             </Box></>
     );
