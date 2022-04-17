@@ -5,24 +5,28 @@ import type {
     LoaderFunction,
 } from "@remix-run/node";
 import {useLoaderData} from "@remix-run/react";
+import NoteCard from "~/routes/me/NoteCard";
+import {Note} from "@prisma/client";
 
-type LoaderData = {
-    noteListItems: Array<{ id: string; name: string }>;
-};
+type LoaderData = { randomNote: Note };
 
 export const loader: LoaderFunction = async () => {
-    const data: LoaderData = {
-        noteListItems: await db.note.findMany(),
-    };
-    return json(data);
+    const count = await db.note.count();
+    const randomRowNumber = Math.floor(Math.random() * count);
+    const [randomNote] = await db.note.findMany({
+        take: 1,
+        skip: randomRowNumber
+    });
+    const data: LoaderData = { randomNote };
+    return data;
 };
+
 
 
 export default function MeIndexRoute() {
-
     return (
         <div>
-            <SocialProfileSimple />
+            <NoteCard />
         </div>
     )
 }
