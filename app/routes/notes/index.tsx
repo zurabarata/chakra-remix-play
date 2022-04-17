@@ -1,5 +1,4 @@
 import { db } from "~/utils/db.server";
-import { json } from "@remix-run/node";
 import type {
     LoaderFunction,
 } from "@remix-run/node";
