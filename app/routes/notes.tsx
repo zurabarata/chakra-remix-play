@@ -1,7 +1,7 @@
 import NavBarDarkThemeSwitcher from "~/components/NavBarDarkThemeSwitcher";
 import {Box} from "@chakra-ui/react";
 import {Outlet} from "@remix-run/react";
-import SidebarWithHeader from "~/routes/me/SidebarWithHeader";
+import SidebarWithHeader from "~/routes/notes/SidebarWithHeader";
 
 
 export default function MeRoute() {

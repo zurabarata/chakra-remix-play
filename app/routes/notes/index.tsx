@@ -1,11 +1,11 @@
-import SocialProfileSimple from "~/routes/me/SocialUserProfileSimple";
+import SocialProfileSimple from "~/routes/notes/SocialUserProfileSimple";
 import { db } from "~/utils/db.server";
 import { json } from "@remix-run/node";
 import type {
     LoaderFunction,
 } from "@remix-run/node";
 import {useLoaderData} from "@remix-run/react";
-import NoteCard from "~/routes/me/NoteCard";
+import NoteCard from "~/routes/notes/NoteCard";
 import {Note} from "@prisma/client";
 
 type LoaderData = { randomNote: Note };
@@ -23,7 +23,7 @@ export const loader: LoaderFunction = async () => {
 
 
 
-export default function MeIndexRoute() {
+export default function NotesIndexRoute() {
     return (
         <div>
             <NoteCard />
