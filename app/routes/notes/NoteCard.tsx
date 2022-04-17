@@ -66,6 +66,10 @@ export default function NoteCard() {
                     >
                         {data.randomNote.content}
                     </Text>
+                    <Text color={'gray.100'}
+                    >
+                        {data.randomNote.id}
+                    </Text>
                 </Stack>
             </Box>
         </Center>
