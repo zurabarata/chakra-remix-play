@@ -3,7 +3,6 @@
   "private": true,
   "description": "",
   "license": "",
-  "sideEffects": false,
   "prisma": {
     "seed": "node --require esbuild-register prisma/seed.ts"
   },
