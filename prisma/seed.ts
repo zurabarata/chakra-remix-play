@@ -17,5 +17,8 @@ seed();
 
 function getNotes() {
     return [
+        {
+            title: "Note 1",
+            content: "This is note 1",}
     ];
 }
