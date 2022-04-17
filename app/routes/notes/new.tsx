@@ -2,6 +2,7 @@ import type { ActionFunction } from "@remix-run/node";
 import { db } from "~/utils/db.server";
 import {json, redirect} from "@remix-run/node";
 import {useActionData} from "@remix-run/react";
+import NewNoteFormCard from "~/routes/notes/NewNoteFormCard";
 
 export function ErrorBoundary() {
     return (
@@ -174,6 +175,7 @@ export default function NewNoteRoute() {
                     </button>
                 </div>
             </form>
+            {/*<NewNoteFormCard />*/}
         </div>
     );
 }
