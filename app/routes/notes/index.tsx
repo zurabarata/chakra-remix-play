@@ -23,6 +23,7 @@ export const loader: LoaderFunction = async () => {
 
 
 export default function NotesIndexRoute() {
+    const data = useLoaderData<LoaderData>();
     return (
         <div>
             <NoteCard />
