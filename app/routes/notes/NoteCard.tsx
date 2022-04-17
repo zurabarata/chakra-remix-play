@@ -6,7 +6,7 @@ import {
     Stack,
     Avatar,
     Image,
-    useColorModeValue,
+    useColorModeValue, Button,
 } from '@chakra-ui/react';
 import type {
     LoaderFunction,

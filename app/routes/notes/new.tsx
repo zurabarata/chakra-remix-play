@@ -23,15 +23,23 @@ function validateNoteName(name: string) {
     }
 }
 
+function validateNoteImagee(image: string) {
+    if (image.length < 2) {
+        return `That note's image url is too short`;
+    }
+}
+
 type ActionData = {
     formError?: string;
     fieldErrors?: {
         name: string | undefined;
         content: string | undefined;
+        image: string | undefined;
     };
     fields?: {
         name: string;
         content: string;
+        image: string;
     };
 };
 
@@ -44,9 +52,11 @@ export const action: ActionFunction = async ({
     const form = await request.formData();
     const name = form.get("name");
     const content = form.get("content");
+    const image = form.get("image");
     if (
         typeof name !== "string" ||
-        typeof content !== "string"
+        typeof content !== "string" ||
+        typeof image !== "string"
     ) {
         return badRequest({
             formError: `Form not submitted correctly.`
@@ -55,9 +65,10 @@ export const action: ActionFunction = async ({
 
     const fieldErrors = {
         name: validateNoteName(name),
-        content: validateNoteContent(content)
+        content: validateNoteContent(content),
+        image: validateNoteImagee(image)
     };
-    const fields = { name, content};
+    const fields = { name, content, image};
     if (Object.values(fieldErrors).some(Boolean)) {
         return badRequest({ fieldErrors, fields });
     }
@@ -126,6 +137,34 @@ export default function NewNoteRoute() {
                             id="content-error"
                         >
                             {actionData.fieldErrors.content}
+                        </p>
+                    ) : null}
+                </div>
+                <div>
+                    <label>
+                        Image URL:{" "}
+                        <input
+                            type="url"
+                            defaultValue={actionData?.fields?.image}
+                            name="image"
+                            aria-invalid={
+                                Boolean(actionData?.fieldErrors?.image) ||
+                                undefined
+                            }
+                            aria-describedby={
+                                actionData?.fieldErrors?.image
+                                    ? "image-error"
+                                    : undefined
+                            }
+                        />
+                    </label>
+                    {actionData?.fieldErrors?.image ? (
+                        <p
+                            className="form-validation-error"
+                            role="alert"
+                            id="image-error"
+                        >
+                            {actionData.fieldErrors.image}
                         </p>
                     ) : null}
                 </div>

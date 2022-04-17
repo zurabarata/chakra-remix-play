@@ -2,7 +2,7 @@ import type { Note } from "@prisma/client";
 import { db } from "~/utils/db.server";
 import {ActionFunction, LoaderFunction, redirect} from "@remix-run/node";
 import {useCatch, useLoaderData, useParams} from "@remix-run/react";
-import {Box, Center, Heading, Button, Stack, Text, useColorModeValue} from "@chakra-ui/react";
+import {Box, Center, Heading, Button, Stack, Text, Image, useColorModeValue} from "@chakra-ui/react";
 
 type LoaderData = { note: Note };
 
@@ -45,27 +45,24 @@ export default function NoteRoute() {
         <div className="main-container">
             <Center py={6}>
                 <Box
-                    maxW={'890px'}
+                    maxW={'1200px'}
                     w={'full'}
                     bg={useColorModeValue('white', 'gray.900')}
                     boxShadow={'2xl'}
                     rounded={'md'}
                     p={6}
                     overflow={'hidden'}>
-                    <Box
-                        h={'210px'}
-                        bg={'gray.100'}
-                        mt={-6}
-                        mx={-6}
-                        mb={6}
-                        pos={'relative'}>
-                        {/*                    <img
-                        src={
-                            'https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80'
-                        }
-                    />*/}
-                    </Box>
-                    <Stack>
+                        {data.note?.image && (
+                            <Image
+                                mb={6}
+                                w={'full'}
+                                maxH={'400px'}
+                                maxW={'1200px'}
+                                rounded={'md'}
+                                src={data.note?.image}
+                            />
+                        )}
+                    <Stack spacing={3}>
                         <Heading
                             whiteSpace={'pre-wrap'}
                             color={useColorModeValue('gray.700', 'white')}
@@ -83,8 +80,15 @@ export default function NoteRoute() {
                                 name="_method"
                                 value="delete"
                             />
-                            <Button type="submit" className="custom-btn btn-1" >
-                                Delete the note!
+                            <Button
+                                colorScheme={'red'}
+                                type="submit"
+                                bg={'red.400'}
+                                px={6}
+                                _hover={{
+                                    bg: 'red.500',
+                                }}>
+                                Delete note
                             </Button>
                         </form>
                     </Stack>
