@@ -1,8 +1,8 @@
 import {Box} from "@chakra-ui/react";
 import {Outlet, useLoaderData} from "@remix-run/react";
 import SidebarWithHeader from "~/routes/notes/SidebarWithHeader";
-import {Note} from "@prisma/client";
-import {LoaderFunction} from "@remix-run/node";
+import type {Note} from "@prisma/client";
+import type {LoaderFunction} from "@remix-run/node";
 import {db} from "~/utils/db.server";
 
 type LoaderData = { randomNote: Note };

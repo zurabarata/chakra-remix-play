@@ -4,7 +4,7 @@ import type {
 } from "@remix-run/node";
 import {useLoaderData} from "@remix-run/react";
 import NoteCard from "~/routes/notes/NoteCard";
-import {Note} from "@prisma/client";
+import type {Note} from "@prisma/client";
 
 type LoaderData = { randomNote: Note };
 
