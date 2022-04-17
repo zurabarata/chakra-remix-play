@@ -25,7 +25,7 @@ export default function NotesIndexRoute() {
     const data = useLoaderData<LoaderData>();
     return (
         <div>
-            <NoteCard />
+            {data ? (<NoteCard/>) : null}
         </div>
     )
 }
