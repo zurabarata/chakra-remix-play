@@ -1,6 +1,5 @@
-import NavBarDarkThemeSwitcher from "~/components/NavBarDarkThemeSwitcher";
 import {Box} from "@chakra-ui/react";
-import {Outlet} from "@remix-run/react";
+import {Outlet, useLoaderData} from "@remix-run/react";
 import SidebarWithHeader from "~/routes/notes/SidebarWithHeader";
 import {Note} from "@prisma/client";
 import {LoaderFunction} from "@remix-run/node";
@@ -21,6 +20,7 @@ export const loader: LoaderFunction = async () => {
 
 
 export default function NotesRoute() {
+    const data = useLoaderData<LoaderData>();
   return (
           <SidebarWithHeader>
               <Box p={4}>
