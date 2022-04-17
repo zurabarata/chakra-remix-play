@@ -1,10 +1,11 @@
 import { db } from "~/utils/db.server";
+import { json } from "@remix-run/node";
 import type {
     LoaderFunction,
 } from "@remix-run/node";
 import {useLoaderData} from "@remix-run/react";
 import NoteCard from "~/routes/notes/NoteCard";
-import type {Note} from "@prisma/client";
+import {Note} from "@prisma/client";
 
 type LoaderData = { randomNote: Note };
 
@@ -22,10 +23,9 @@ export const loader: LoaderFunction = async () => {
 
 
 export default function NotesIndexRoute() {
-    const data = useLoaderData<LoaderData>();
     return (
         <div>
-            {data ? (<NoteCard/>) : null}
+            <NoteCard />
         </div>
     )
 }

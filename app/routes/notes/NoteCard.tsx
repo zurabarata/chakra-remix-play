@@ -4,6 +4,8 @@ import {
     Heading,
     Text,
     Stack,
+    Avatar,
+    Image,
     useColorModeValue,
 } from '@chakra-ui/react';
 import type {
