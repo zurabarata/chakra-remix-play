@@ -5,7 +5,8 @@ generator client {
 
 datasource db {
   provider = "mongodb"
-  url      = env("DATABASE_URL")
+  //I know this is a horrible way to do this, but  url = env("DATABASE_URL") is not reading the url from the env file for some reason
+  url = "mongodb+srv://Zurab:dubist1FUCHS!@cluster0.wymfi.mongodb.net/test?retryWrites=true&w=majority"
 }
 
 model Note {
