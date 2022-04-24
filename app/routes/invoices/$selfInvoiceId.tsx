@@ -1,10 +1,10 @@
-import type { Note } from "@prisma/client";
+import type { SelfInvoice } from "@prisma/client";
 import { db } from "~/utils/db.server";
 import {ActionFunction, LoaderFunction, redirect} from "@remix-run/node";
 import {useCatch, useLoaderData, useParams} from "@remix-run/react";
 import {Box, Center, Heading, Button, Stack, Text, Image, useColorModeValue} from "@chakra-ui/react";
 
-type LoaderData = { note: Note };
+type LoaderData = { selfInvoice: SelfInvoice };
 
 export const action: ActionFunction = async ({
                                                  request,
@@ -12,17 +12,17 @@ export const action: ActionFunction = async ({
                                              }) => {
     const form = await request.formData();
     if (form.get("_method") === "delete") {
-        const note = await db.note.findUnique({
-            where: { id: params.noteId }
+        const selfInvoice = await db.selfInvoice.findUnique({
+            where: { id: params.id }
         });
-        if (!note) {
+        if (!selfInvoice) {
             throw new Response(
                 "Can't delete what does not exist",
                 { status: 404 }
             );
         }
-        await db.note.delete({ where: { id: params.noteId } });
-        return redirect("/notes");
+        await db.selfInvoice.delete({ where: { id: params.id } });
+        return redirect("/invoices");
     }
 };
 
@@ -30,16 +30,18 @@ export const action: ActionFunction = async ({
 export const loader: LoaderFunction = async ({
                                                  params
                                              }) => {
-    const note = await db.note.findUnique({
-        where: { id: params.noteId }
+    const selfInvoice = await db.selfInvoice.findUnique({
+        where: { id: params.id }
     });
-    if (!note) throw new Error("Note not found");
-    const data: LoaderData = { note };
+    if (!selfInvoice) throw new Error("SelfInvoice not found");
+    const data: LoaderData = { selfInvoice };
     return data;
 };
 
-export default function NoteRoute() {
+export default function SelfInvoiceRoute() {
     const data = useLoaderData<LoaderData>();
+
+    console.log(data);
 
     return (
         <div className="main-container">
@@ -52,27 +54,27 @@ export default function NoteRoute() {
                     rounded={'md'}
                     p={6}
                     overflow={'hidden'}>
-                        {data.note?.image && (
+{/*                        {data.selfInvoice?.image && (
                             <Image
                                 mb={6}
                                 w={'full'}
                                 maxH={'400px'}
                                 maxW={'1200px'}
                                 rounded={'md'}
-                                src={data.note?.image}
+                                src={data.selfInvoice?.image}
                             />
-                        )}
+                        )}*/}
                     <Stack spacing={3}>
                         <Heading
                             whiteSpace={'pre-wrap'}
                             color={useColorModeValue('gray.700', 'white')}
                             fontSize={'2xl'}
                             fontFamily={'body'}>
-                            {data.note.name}
+                            {data.selfInvoice.contact}
                         </Heading>
                         <Text color={'gray.500'} whiteSpace={'pre-wrap'}
                         >
-                            {data.note.content}
+                            {data.selfInvoice.reason}
                         </Text>
                         <form method="post">
                             <input
@@ -88,7 +90,7 @@ export default function NoteRoute() {
                                 _hover={{
                                     bg: 'red.500',
                                 }}>
-                                Delete note
+                                Delete selfInvoice
                             </Button>
                         </form>
                     </Stack>
@@ -105,14 +107,14 @@ export function CatchBoundary() {
         case 404: {
             return (
                 <div className="error-container">
-                    Huh? What the heck is {params.noteId}?
+                    Huh? What the heck is {params.id}?
                 </div>
             );
         }
         case 401: {
             return (
                 <div className="error-container">
-                    Sorry, but {params.noteId} is not your note.
+                    Sorry, but {params.id} is not your selfInvoice.
                 </div>
             );
         }
@@ -124,8 +126,8 @@ export function CatchBoundary() {
 
 export function ErrorBoundary({ error }: { error: Error }) {
     console.error(error);
-    const { noteId } = useParams();
+    const { id } = useParams();
     return (
-        <div className="error-container">{`There was an error loading note by the id ${noteId}. Sorry.`}</div>
+        <div className="error-container">{`There was an error loading selfInvoice by the id ${id}. Sorry.`}</div>
     );
 }

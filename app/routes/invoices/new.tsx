@@ -2,7 +2,6 @@ import type { ActionFunction } from "@remix-run/node";
 import { db } from "~/utils/db.server";
 import {json, redirect} from "@remix-run/node";
 import {useActionData} from "@remix-run/react";
-import NewNoteFormCard from "~/routes/notes/NewNoteFormCard";
 
 export function ErrorBoundary() {
     return (
@@ -12,35 +11,35 @@ export function ErrorBoundary() {
     );
 }
 
-function validateNoteContent(content: string) {
-    if (content.length < 10) {
-        return `That note is too short`;
+function validateNumber(number: string) {
+    if (number.length < 2) {
+        return `That number is too short`;
     }
 }
 
-function validateNoteName(name: string) {
-    if (name.length < 2) {
-        return `That note's name is too short`;
+function validateContact(contact: string) {
+    if (contact.length < 2) {
+        return `That contact is too short`;
     }
 }
 
-function validateNoteImagee(image: string) {
-    if (image.length < 2) {
-        return `That note's image url is too short`;
+function validateReason(reason: string) {
+    if (reason.length < 2) {
+        return `That note's number url is too short`;
     }
 }
 
 type ActionData = {
     formError?: string;
     fieldErrors?: {
-        name: string | undefined;
-        content: string | undefined;
-        image: string | undefined;
+        contact: string | undefined;
+        number: string | undefined;
+        reason: string | undefined;
     };
     fields?: {
-        name: string;
-        content: string;
-        image: string;
+        contact: string;
+        number: string;
+        reason: string;
     };
 };
 
@@ -51,13 +50,13 @@ export const action: ActionFunction = async ({
                                                  request
                                              }) => {
     const form = await request.formData();
-    const name = form.get("name");
-    const content = form.get("content");
-    const image = form.get("image");
+    const contact = form.get("contact");
+    const number = form.get("number");
+    const reason = form.get("reason");
     if (
-        typeof name !== "string" ||
-        typeof content !== "string" ||
-        typeof image !== "string"
+        typeof contact !== "string" ||
+        typeof number !== "string" ||
+        typeof reason !== "string"
     ) {
         return badRequest({
             formError: `Form not submitted correctly.`
@@ -65,21 +64,21 @@ export const action: ActionFunction = async ({
     }
 
     const fieldErrors = {
-        name: validateNoteName(name),
-        content: validateNoteContent(content),
-        image: validateNoteImagee(image)
+        contact: validateContact(contact),
+        number: validateNumber(number),
+        reason: validateReason(reason)
     };
-    const fields = { name, content, image};
+    const fields = { contact, number, reason };
     if (Object.values(fieldErrors).some(Boolean)) {
         return badRequest({ fieldErrors, fields });
     }
 
-    const note = await db.note.create({ data: fields });
+    const selfInvoice = await db.selfInvoice.create({ data: fields });
 
-    return redirect(`/notes/${note.id}`);
+    return redirect(`/invoices/${selfInvoice.id}`);
 };
 
-export default function NewNoteRoute() {
+export default function NewSelfInvoiceRoute() {
     const actionData = useActionData<ActionData>();
 
     return (
@@ -91,81 +90,81 @@ export default function NewNoteRoute() {
                         Title:{" "}
                         <input
                             type="text"
-                            defaultValue={actionData?.fields?.name}
-                            name="name"
+                            defaultValue={actionData?.fields?.contact}
+                            name="contact"
                             aria-invalid={
-                                Boolean(actionData?.fieldErrors?.name) ||
+                                Boolean(actionData?.fieldErrors?.contact) ||
                                 undefined
                             }
                             aria-describedby={
-                                actionData?.fieldErrors?.name
-                                    ? "name-error"
+                                actionData?.fieldErrors?.contact
+                                    ? "contact-error"
                                     : undefined
                             }
                         />
                     </label>
-                    {actionData?.fieldErrors?.name ? (
+                    {actionData?.fieldErrors?.contact ? (
                         <p
                             className="form-validation-error"
                             role="alert"
-                            id="name-error"
+                            id="contact-error"
                         >
-                            {actionData.fieldErrors.name}
+                            {actionData.fieldErrors.contact}
                         </p>
                     ) : null}
                 </div>
                 <div>
                     <label>
-                        Content:{" "}
+                        Reason:{" "}
                         <textarea
-                            defaultValue={actionData?.fields?.content}
-                            name="content"
+                            defaultValue={actionData?.fields?.reason}
+                            name="reason"
                             aria-invalid={
-                                Boolean(actionData?.fieldErrors?.content) ||
+                                Boolean(actionData?.fieldErrors?.reason) ||
                                 undefined
                             }
                             aria-describedby={
-                                actionData?.fieldErrors?.content
-                                    ? "content-error"
+                                actionData?.fieldErrors?.reason
+                                    ? "reason-error"
                                     : undefined
                             }
                         />
                     </label>
-                    {actionData?.fieldErrors?.content ? (
+                    {actionData?.fieldErrors?.reason ? (
                         <p
                             className="form-validation-error"
                             role="alert"
-                            id="content-error"
+                            id="reason-error"
                         >
-                            {actionData.fieldErrors.content}
+                            {actionData.fieldErrors.reason}
                         </p>
                     ) : null}
                 </div>
                 <div>
                     <label>
-                        Image URL:{" "}
+                        Number:{" "}
                         <input
-                            type="url"
-                            defaultValue={actionData?.fields?.image}
-                            name="image"
+                            type="text"
+                            defaultValue={actionData?.fields?.number}
+                            name="number"
                             aria-invalid={
-                                Boolean(actionData?.fieldErrors?.image) ||
+                                Boolean(actionData?.fieldErrors?.number) ||
                                 undefined
                             }
                             aria-describedby={
-                                actionData?.fieldErrors?.image
-                                    ? "image-error"
+                                actionData?.fieldErrors?.number
+                                    ? "number-error"
                                     : undefined
                             }
                         />
                     </label>
-                    {actionData?.fieldErrors?.image ? (
+                    {actionData?.fieldErrors?.number ? (
                         <p
                             className="form-validation-error"
                             role="alert"
-                            id="image-error"
+                            id="number-error"
                         >
-                            {actionData.fieldErrors.image}
+                            {actionData.fieldErrors.number}
                         </p>
                     ) : null}
                 </div>

@@ -16,3 +16,15 @@ model Note {
   content    String
   image      String?
 }
+
+model SelfInvoice {
+  id         String @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  contact    String
+  number     String
+  amount     Int?
+  date       DateTime?
+  transaction  String?
+  reason      String
+}
