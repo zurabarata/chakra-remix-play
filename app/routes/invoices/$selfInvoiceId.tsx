@@ -13,7 +13,7 @@ export const action: ActionFunction = async ({
     const form = await request.formData();
     if (form.get("_method") === "delete") {
         const selfInvoice = await db.selfInvoice.findUnique({
-            where: { id: params.id }
+            where: { id: params.selfInvoiceId }
         });
         if (!selfInvoice) {
             throw new Response(
@@ -21,7 +21,7 @@ export const action: ActionFunction = async ({
                 { status: 404 }
             );
         }
-        await db.selfInvoice.delete({ where: { id: params.id } });
+        await db.selfInvoice.delete({ where: { id: params.selfInvoiceId } });
         return redirect("/invoices");
     }
 };
@@ -31,7 +31,7 @@ export const loader: LoaderFunction = async ({
                                                  params
                                              }) => {
     const selfInvoice = await db.selfInvoice.findUnique({
-        where: { id: params.id }
+        where: { id: params.selfInvoiceId }
     });
     if (!selfInvoice) throw new Error("SelfInvoice not found");
     const data: LoaderData = { selfInvoice };
@@ -107,14 +107,14 @@ export function CatchBoundary() {
         case 404: {
             return (
                 <div className="error-container">
-                    Huh? What the heck is {params.id}?
+                    Huh? What the heck is {params.selfInvoiceId}?
                 </div>
             );
         }
         case 401: {
             return (
                 <div className="error-container">
-                    Sorry, but {params.id} is not your selfInvoice.
+                    Sorry, but {params.selfInvoiceId} is not your selfInvoice.
                 </div>
             );
         }

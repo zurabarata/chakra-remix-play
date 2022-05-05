@@ -3,10 +3,10 @@ import type {
     LoaderFunction,
 } from "@remix-run/node";
 import {useLoaderData} from "@remix-run/react";
-import type { Note } from "@prisma/client";
 import { db } from "~/utils/db.server";
 import invoiceStyles from "~/styles/invoice.css";
-import {Box, Heading, Stack, Text, useColorModeValue} from "@chakra-ui/react";
+import {Box, Grid, Heading, Stack, Text, useColorModeValue} from "@chakra-ui/react";
+import {json} from "@remix-run/node";
 
 export const links: LinksFunction = () => {
     return [
@@ -17,17 +17,19 @@ export const links: LinksFunction = () => {
     ];
 };
 
-type LoaderData = { randomNote: Note };
+type LoaderData = {
+    selfInvoiceListItems: Array<{ id: string; contact: string }>;
+};
 
 export const loader: LoaderFunction = async () => {
-    const count = await db.note.count();
-    const randomRowNumber = Math.floor(Math.random() * count);
-    const [randomNote] = await db.note.findMany({
-        take: 1,
-        skip: randomRowNumber
-    });
-    const data: LoaderData = { randomNote };
-    return data;
+    const data: LoaderData = {
+        selfInvoiceListItems: await db.selfInvoice.findMany({
+            take: 5,
+            select: { id: true, contact: true },
+            orderBy: { createdAt: "desc" },
+        }),
+    };
+    return json(data);
 };
 
 const ColoredLine = () => (
@@ -40,21 +42,33 @@ const ColoredLine = () => (
     />
 );
 
-export default function NoteCard() {
+export default function SelfInvoiceCard() {
     const data = useLoaderData<LoaderData>();
 
     return (
-        <>
+        <Grid>
             <Box
-                maxW={'890px'}
+                maxW={'auto'}
                 w={'full'}
                 bg={useColorModeValue('white', 'gray.900')}
                 boxShadow={'2xl'}
                 rounded={'md'}
                 p={6}
                 overflow={'hidden'}>
+                <ul>
+                    {data.selfInvoiceListItems.map((invoice) => (
+                        <li key={invoice.id}>
+                            {invoice.id}
+                        </li>
+                    ))}
+                </ul>
+            </Box>
+        </Grid>
+    );
+}
 
-            <div className="container mt-5 mb-5">
+
+{/*            <div className="container mt-5 mb-5">
                 <div className="d-flex justify-content-center row">
                     <div className="col-md-10">
                         <div className="receipt bg-white p-3 rounded">
@@ -140,8 +154,4 @@ export default function NoteCard() {
                         </div>
                     </div>
                 </div>
-            </div>
-            </Box>
-        </>
-    );
-}
+            </div>*/}
