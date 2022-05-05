@@ -1,19 +1,44 @@
-body {
-    background-color: #eee
+body{
+    padding:0;
+    margin: 0;
+    overflow-x: hidden;
+    font-family: 'Raleway', sans-serif;
 }
-
-.fs-12 {
-    font-size: 12px
+h5,h3{
+    text-transform: capitalize;
 }
-
-.fs-15 {
-    font-size: 15px
+img{
+    max-width: 20%;
 }
-
-.name {
-    margin-bottom: -2px
+.b-t{
+    border-top: 1px solid #ddd;
 }
-
-.product-details {
-    margin-top: 13px
+@media(max-width: 768px){
+    .text-right{
+        text-align: center !important;
+    }
+    .pull-right{
+        float: none;
+        text-align: center;
+    }
+    .center{
+        text-align: center;
+    }
+    .bg-light.p-5:nth-child(1){
+        padding: 1rem !important;
+    }
+    img{
+        max-width: 30%;
+        margin: 0 auto;
+        display: block;
+    }
+    .p-5{
+        padding: 1rem !important;
+    }
+    .text-right h5:nth-child(3){
+        padding-top: 15px !important;
+    }
+    .pt-5{
+        padding-top: 1rem!important
+    }
 }

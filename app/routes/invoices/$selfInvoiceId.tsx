@@ -1,8 +1,18 @@
 import type { SelfInvoice } from "@prisma/client";
 import { db } from "~/utils/db.server";
-import {ActionFunction, LoaderFunction, redirect} from "@remix-run/node";
+import {ActionFunction, LinksFunction, LoaderFunction, redirect} from "@remix-run/node";
 import {useCatch, useLoaderData, useParams} from "@remix-run/react";
 import {Box, Center, Heading, Button, Stack, Text, Image, useColorModeValue} from "@chakra-ui/react";
+import invoiceStyles from "~/styles/invoice.css";
+
+export const links: LinksFunction = () => {
+    return [
+        {
+            rel: "stylesheet",
+            href: invoiceStyles,
+        },
+    ];
+};
 
 type LoaderData = { selfInvoice: SelfInvoice };
 
@@ -44,8 +54,6 @@ export default function SelfInvoiceRoute() {
     console.log(data);
 
     return (
-        <div className="main-container">
-            <Center py={6}>
                 <Box
                     maxW={'1200px'}
                     w={'full'}
@@ -54,49 +62,10 @@ export default function SelfInvoiceRoute() {
                     rounded={'md'}
                     p={6}
                     overflow={'hidden'}>
-{/*                        {data.selfInvoice?.image && (
-                            <Image
-                                mb={6}
-                                w={'full'}
-                                maxH={'400px'}
-                                maxW={'1200px'}
-                                rounded={'md'}
-                                src={data.selfInvoice?.image}
-                            />
-                        )}*/}
-                    <Stack spacing={3}>
-                        <Heading
-                            whiteSpace={'pre-wrap'}
-                            color={useColorModeValue('gray.700', 'white')}
-                            fontSize={'2xl'}
-                            fontFamily={'body'}>
-                            {data.selfInvoice.contact}
-                        </Heading>
-                        <Text color={'gray.500'} whiteSpace={'pre-wrap'}
-                        >
-                            {data.selfInvoice.reason}
-                        </Text>
-                        <form method="post">
-                            <input
-                                type="hidden"
-                                name="_method"
-                                value="delete"
-                            />
-                            <Button
-                                colorScheme={'red'}
-                                type="submit"
-                                bg={'red.400'}
-                                px={6}
-                                _hover={{
-                                    bg: 'red.500',
-                                }}>
-                                Delete selfInvoice
-                            </Button>
-                        </form>
-                    </Stack>
+                    <p>invoiceID: {data.selfInvoice.id}</p>
+                    <p>Contact: {data.selfInvoice.contact}</p>
+                    {data.selfInvoice.date && <p>Date: {data.selfInvoice.date}</p>}
                 </Box>
-            </Center>
-        </div>
     );
 }
 
