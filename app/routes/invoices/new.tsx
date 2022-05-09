@@ -25,7 +25,7 @@ function validateContact(contact: string) {
 
 function validateReason(reason: string) {
     if (reason.length < 2) {
-        return `That note's number url is too short`;
+        return `That reason is too short`;
     }
 }
 
@@ -35,11 +35,15 @@ type ActionData = {
         contact: string | undefined;
         number: string | undefined;
         reason: string | undefined;
+
     };
     fields?: {
         contact: string;
         number: string;
         reason: string;
+        createdAt: string;
+        amount: number;
+        transaction: string;
     };
 };
 
@@ -53,6 +57,10 @@ export const action: ActionFunction = async ({
     const contact = form.get("contact");
     const number = form.get("number");
     const reason = form.get("reason");
+    const amount = Number(form.get("amount"));
+    const createdAt = new Date().toISOString();
+    const transaction = form.get("transaction");
+
     if (
         typeof contact !== "string" ||
         typeof number !== "string" ||
@@ -68,7 +76,9 @@ export const action: ActionFunction = async ({
         number: validateNumber(number),
         reason: validateReason(reason)
     };
-    const fields = { contact, number, reason };
+    const fields = { contact, number,
+        reason,
+        createdAt, amount, transaction };
     if (Object.values(fieldErrors).some(Boolean)) {
         return badRequest({ fieldErrors, fields });
     }
@@ -82,12 +92,52 @@ export default function NewSelfInvoiceRoute() {
     const actionData = useActionData<ActionData>();
 
     return (
-        <div className="main-container">
-            <h3>Add your own note</h3>
+        <div>
             <form method="post">
+                <h1>Eigenbeleg createn:</h1>
+                <br/>
                 <div>
                     <label>
-                        Title:{" "}
+                        Number:{" "}
+                        <input
+                            type="text"
+                            defaultValue={actionData?.fields?.number}
+                            name="number"
+                            aria-invalid={
+                                Boolean(actionData?.fieldErrors?.number) ||
+                                undefined
+                            }
+                            aria-describedby={
+                                actionData?.fieldErrors?.number
+                                    ? "number-error"
+                                    : undefined
+                            }
+                        />
+                    </label>
+                    {actionData?.fieldErrors?.number ? (
+                        <p
+                            className="form-validation-error"
+                            role="alert"
+                            id="number-error"
+                        >
+                            {actionData.fieldErrors.number}
+                        </p>
+                    ) : null}
+                </div>
+                <div>
+                    <label>
+                        Date:{" "}
+                        <input
+                            type="text"
+                            defaultValue={actionData?.fields?.createdAt}
+                            name="createdAt"
+                        />
+                    </label>
+                </div>
+
+                <div>
+                    <label>
+                        Contact:{" "}
                         <input
                             type="text"
                             defaultValue={actionData?.fields?.contact}
@@ -113,6 +163,18 @@ export default function NewSelfInvoiceRoute() {
                         </p>
                     ) : null}
                 </div>
+                <br/>
+                <div>
+                    <label>
+                        Total amount:{" "}
+                        <input
+                            type="text"
+                            defaultValue={actionData?.fields?.amount}
+                            name="amount"
+                        />
+                    </label>
+                </div>
+                <br/>
                 <div>
                     <label>
                         Reason:{" "}
@@ -142,32 +204,14 @@ export default function NewSelfInvoiceRoute() {
                 </div>
                 <div>
                     <label>
-                        Number:{" "}
-                        <input
-                            type="text"
-                            defaultValue={actionData?.fields?.number}
-                            name="number"
-                            aria-invalid={
-                                Boolean(actionData?.fieldErrors?.number) ||
-                                undefined
-                            }
-                            aria-describedby={
-                                actionData?.fieldErrors?.number
-                                    ? "number-error"
-                                    : undefined
-                            }
+                        Transaction:{" "}
+                        <textarea
+                            defaultValue={actionData?.fields?.transaction}
+                            name="transaction"
                         />
                     </label>
-                    {actionData?.fieldErrors?.number ? (
-                        <p
-                            className="form-validation-error"
-                            role="alert"
-                            id="number-error"
-                        >
-                            {actionData.fieldErrors.number}
-                        </p>
-                    ) : null}
                 </div>
+
                 <div>
                     <button type="submit" className="custom-btn btn-1">
                         Add

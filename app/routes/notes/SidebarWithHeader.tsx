@@ -43,10 +43,10 @@ interface LinkItemProps {
 }
 const LinkItems: Array<LinkItemProps> = [
     { name: 'Home', icon: FiHome },
-    { name: 'Trending', icon: FiTrendingUp },
+/*    { name: 'Trending', icon: FiTrendingUp },
     { name: 'Explore', icon: FiCompass },
     { name: 'Favourites', icon: FiStar },
-    { name: 'Settings', icon: FiSettings },
+    { name: 'Settings', icon: FiSettings },*/
 ];
 
 export default function SidebarWithHeader({
@@ -215,7 +215,9 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
                                 </Center>
                                 <br />
                                 <MenuDivider />
+{/*
                                 <MenuItem>Your Servers</MenuItem>
+*/}
                                 <MenuItem>Account Settings</MenuItem>
                                 <MenuItem>Logout</MenuItem>
                             </MenuList>

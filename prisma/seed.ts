@@ -35,9 +35,10 @@ function getNotes() {
 function getSelfInvoices() {
     return [
         {
-            contact: "Note 1",
-            reason: "This is note 1",
-            number: "This is note 1"
+            contact: "This is contact 1",
+            address: "This is address 1",
+            reason: "This is reason 1",
+            number: "This is number 1",
         }
     ];
 }

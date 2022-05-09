@@ -55,16 +55,26 @@ export default function SelfInvoiceRoute() {
 
     return (
                 <Box
-                    maxW={'1200px'}
+                    maxW={'400px'}
                     w={'full'}
                     bg={useColorModeValue('white', 'gray.900')}
                     boxShadow={'2xl'}
                     rounded={'md'}
                     p={6}
                     overflow={'hidden'}>
-                    <p>invoiceID: {data.selfInvoice.id}</p>
-                    <p>Contact: {data.selfInvoice.contact}</p>
-                    {data.selfInvoice.date && <p>Date: {data.selfInvoice.date}</p>}
+                    <b>
+                        Eigenbeleg Nr.: {data.selfInvoice.number}
+                    </b>
+                    <br/>
+                    <br/>
+                    <p>Contact     : {data.selfInvoice.contact}</p>
+                    <p>Amount      : {data.selfInvoice.amount}</p>
+                    <p>Reason      : {data.selfInvoice.reason}</p>
+                    <p>Date        : {data.selfInvoice.createdAt}</p>
+                    <p>Transaction : {data.selfInvoice.transaction}</p>
+
+
+
                 </Box>
     );
 }

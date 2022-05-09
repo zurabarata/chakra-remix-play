@@ -22,9 +22,10 @@ model SelfInvoice {
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
   contact    String
+  address    String?
   number     String
-  amount     Int?
-  date       DateTime?
-  transaction  String?
-  reason      String
+  amount     Int
+  vatRate    Int?
+  transaction String?
+  reason     String
 }

@@ -68,11 +68,14 @@ export default function NavBarDarkThemeSwitcher() {
                                     </Center>
                                     <br />
                                     <Center>
+                                        <p>Zurab</p>
                                         <p>ზურაბ</p>
                                     </Center>
                                     <br />
                                     <MenuDivider />
+{/*
                                     <MenuItem>Your Servers</MenuItem>
+*/}
                                     <MenuItem>Account Settings</MenuItem>
                                     <MenuItem>Logout</MenuItem>
                                 </MenuList>
